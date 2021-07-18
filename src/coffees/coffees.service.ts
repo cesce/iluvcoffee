@@ -23,13 +23,16 @@ export class CoffeesService {
 
   create(createCoffeeDto: any) {
     this.coffees.push(createCoffeeDto);
+    return createCoffeeDto;
   }
 
   update(id: string, updateCoffeeDto: any) {
     const existingCoffee = this.findOne(id);
+    const coffeeIndex = this.coffees.findIndex((item) => item.id === +id);
     if (existingCoffee) {
       // update the existing entity
       console.log(updateCoffeeDto);
+      this.coffees[coffeeIndex] = updateCoffeeDto;
     }
   }
 

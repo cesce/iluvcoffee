@@ -1,4 +1,13 @@
-import { Body, Controller, Get, Param, Post } from '@nestjs/common';
+import {
+  Body,
+  Controller,
+  Delete,
+  Get,
+  Param,
+  Patch,
+  Post,
+  Query,
+} from '@nestjs/common';
 import { CoffeesService } from './coffees.service';
 
 @Controller('coffees')
@@ -6,53 +15,29 @@ export class CoffeesController {
   constructor(private readonly coffeesService: CoffeesService) {}
 
   @Get()
+  // findAll(@Query() paginationQuery) {
   findAll() {
-    return 'return all coffees';
+    // const { limit, offset } = paginationQuery;
+    return this.coffeesService.findAll();
   }
 
   @Get(':id')
-  findOne(@Param() params) {
-    return `return one coffee by id: ${params.id}`;
-  }
-
-  @Get('flavors')
-  findAllFlavors() {
-    return 'return all flavors';
-  }
-
-  @Get('flavors/:id')
-  findOneFlavor(@Param('id') id: string) {
-    return `return one flavor by id: ${id}`;
-  }
-
-  @Get(':coffeeId/flavors/:flavorId/:color')
-  findFlavorForCoffee(@Param() params) {
-    console.log('v1');
-    return `coffee: ${params.coffeeId} - flavor: ${params.flavorId} - Color: ${params.color}`;
-  }
-
-  // This will never be executed because first is matched above route
-  // Is shown here as an example
-  @Get(':coffeeId/flavors/:flavorId/:color')
-  findFlavorForCoffeeV2(
-    @Param('coffeeId') coffeeId: string,
-    @Param('flavorId') flavorId: string,
-    @Param('color') color: string,
-  ) {
-    console.log('v1');
-    return `coffee: ${coffeeId} - flavor: ${flavorId} - Color: ${color}`;
+  findOne(@Param('id') id: string) {
+    return this.coffeesService.findOne(id);
   }
 
   @Post()
-  createCoffee(@Body() body) {
-    console.log(body);
-    return body;
+  create(@Body() body) {
+    return this.coffeesService.create(body);
   }
 
-  @Post(':coffeeId/flavors/:flavorId')
-  createFlavorColor(@Body('name') body) {
-    // body only contains the value of filed 'name'
-    console.log(body);
-    return body;
+  @Patch(':id')
+  update(@Param('id') id: string, @Body() body) {
+    return this.coffeesService.update(id, body);
+  }
+
+  @Delete(':id')
+  remove(@Param('id') id: string) {
+    return this.coffeesService.remove(id);
   }
 }
