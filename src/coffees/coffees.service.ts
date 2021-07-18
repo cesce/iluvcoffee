@@ -3,7 +3,7 @@ import { Coffee } from './entities/coffee.entity';
 
 @Injectable()
 export class CoffeesService {
-  // We will use the array as datasource, mocking the real database
+  // We will use the array as data-source, mocking the real database
   private coffees: Coffee[] = [
     {
       id: 1,
@@ -29,6 +29,7 @@ export class CoffeesService {
     const existingCoffee = this.findOne(id);
     if (existingCoffee) {
       // update the existing entity
+      console.log(updateCoffeeDto);
     }
   }
 
