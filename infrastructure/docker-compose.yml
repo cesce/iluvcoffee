@@ -1,0 +1,18 @@
+# Compose file version
+version: '3'
+
+# Services contains all the containers which are included in the compose file and acts as a their parent tag
+# Each service is treated as a separate container
+services:
+  # Custom name for the service
+  db:
+    # Base image of the container
+    image: postgres
+    # Restart policy for the container
+    restart: always
+    # Exposing the port to the host system. Here is defined which port we want to expose and the host port it should be exposed to
+    ports:
+      - '5432:5432'
+    # Environment variables of the container
+    environment:
+      POSTGRES_PASSWORD: pass123
