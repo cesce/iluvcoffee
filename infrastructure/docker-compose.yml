@@ -4,15 +4,28 @@ version: '3'
 # Services contains all the containers which are included in the compose file and acts as a their parent tag
 # Each service is treated as a separate container
 services:
-  # Custom name for the service
+  #  Create a service named db for a PostgreSQL database
   db:
-    # Base image of the container
+    # Base image of the container. Use the Docker Image postgres. This will pull the newest release
     image: postgres
+    # Create a volume to save the data without a running container
+    # If we stop the container with a volume, all data all removed from default ones created by Docker
+    # We enable the use of an external volume
+    volumes:
+      - postgresql-volume:/var/lib/postgresql/data
+    # Give the container the name my_postgres. You can changes to something else.
+    container_name: 'luvecoffeepostgre'
     # Restart policy for the container
     restart: always
     # Exposing the port to the host system. Here is defined which port we want to expose and the host port it should be exposed to
+    # host:container
     ports:
       - '5432:5432'
     # Environment variables of the container
     environment:
+      POSTGRES_USER: admin
       POSTGRES_PASSWORD: pass123
+      POSTGRES_DB: luvecoffee
+volumes:
+  postgresql-volume:
+    external: true
